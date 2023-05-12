@@ -1,0 +1,70 @@
+openapi: 3.0.1
+info:
+  title: Script Synopsis API
+  description: An API that allows users to upload a Final Draft file, generate a synopsis for each scene, and generate long-form script coverage.
+  version: 'v1'
+servers:
+  - url: http://localhost:3333
+paths:
+  /upload:
+    post:
+      operationId: uploadFinalDraft
+      summary: Upload the Final Draft file
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+  /synopsis:
+    get:
+      operationId: getSynopsis
+      summary: Generate a synopsis for each scene
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SynopsisResponse'
+  /coverage:
+    get:
+      operationId: getCoverage
+      summary: Generate long-form script coverage
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoverageResponse'
+components:
+  schemas:
+    UploadResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Status message of the upload operation.
+    SynopsisResponse:
+      type: object
+      properties:
+        synopsis:
+          type: array
+          items:
+            type: string
+          description: The list of scene synopses.
+    CoverageResponse:
+      type: object
+      properties:
+        coverage:
+          type: string
+          description: The long-form script coverage.
